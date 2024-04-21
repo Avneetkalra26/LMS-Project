@@ -51,13 +51,13 @@ export default function CourseContent() {
                                 </div>
                             </div>
                             <div className='bg-gray-300 m-2  cursor-pointer'>
-                                <div onClick={handleQuiz} className='p-2 text-black'>Quiz</div>
-                            </div>
-                            <div className='bg-gray-300 m-2  cursor-pointer'>
                                 <div onClick={handleVideoLect} className='p-2 text-black'>Video Lecture</div>
                             </div>
                             <div className='bg-gray-300 m-2  cursor-pointer'>
                                 <div onClick={handleAssignment} className='p-2 text-black'>Assignment</div>
+                            </div>
+                            <div className='bg-gray-300 m-2  cursor-pointer'>
+                                <div onClick={handleQuiz} className='p-2 text-black'>Quiz</div>
                             </div>
                         </nav>
                     </div>
