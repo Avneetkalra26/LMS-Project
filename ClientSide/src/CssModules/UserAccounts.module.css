@@ -1,0 +1,18 @@
+.bgImg {
+  background-image: url("https://images.pexels.com/photos/2967810/pexels-photo-2967810.jpeg?cs=srgb&dl=pexels-content-pixie-2967810.jpg&fm=jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+.formBgColor{
+  background-color: rgba(0,0,0,0.6) !important;
+  /* opacity: 0.4; */
+}
+.pageTitle {
+  color: #b20303 !important;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 1px 1px red;
+}
+.btnBgColor {
+  background-color: #b20303 !important;
+}

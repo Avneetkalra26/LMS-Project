@@ -1,0 +1,21 @@
+.text {
+  font-family: "Roboto", sans-serif;
+}
+
+.clickbtn {
+  color: white;
+  border: 2px solid #611f69 !important;
+  background-color: #611f69 !important;
+}
+
+.clickbtn:hover {
+  background-color: #3b163f !important;
+  color: white;
+}
+#sidebar {
+  height: 150vh;
+  color: #fff;
+}
+
+
+
