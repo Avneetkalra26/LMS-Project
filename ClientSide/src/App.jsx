@@ -1,6 +1,7 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContactPage, ContentPage, LoginPage, MainPage, ProfilePage, RegisterPage } from './pages';
+import QuizQuestions from './components/Quiz/QuizQuestions';
 export default function App() {
   const appRoute = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ export default function App() {
     {
       path: "/profile",
       element: <ProfilePage/>,
+    },
+    {
+      path: "/quizques",
+      element: <QuizQuestions/>,
     },
   ]);
   return (

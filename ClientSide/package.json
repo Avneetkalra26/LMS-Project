@@ -12,12 +12,14 @@
   "dependencies": {
     "@smastrom/react-rating": "^1.5.0",
     "@tinymce/tinymce-react": "^5.0.1",
+    "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "pdfjs-dist": "^4.1.392",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "react-pdf": "^7.7.1",
+    "react-quiz-component": "^0.8.1",
     "react-router-dom": "^6.22.3",
     "react-simple-star-rating": "^5.1.7",
     "use-sound": "^4.0.1"
