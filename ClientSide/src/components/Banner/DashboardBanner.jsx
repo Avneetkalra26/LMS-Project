@@ -13,7 +13,7 @@ export default function DashboardBanner({ searchDataContainer }) {
                 <h1 className="text-3xl font-semibold mx-10">Dashboard</h1>
                 <div className={`relative mt-3 me-5 ${css.hoverEffect}`}>
                     <div className="absolute bottom-7 mx-3">
-                        <label for="searchCourse" className={`text-gray-600 ${css.label}`}>Search Course by Name</label>
+                        <label htmlFor="searchCourse" className={`text-gray-600 ${css.label}`}>Search Course by Name</label>
                     </div>
                     <button>
                         <input

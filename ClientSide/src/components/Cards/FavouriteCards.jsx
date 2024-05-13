@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import RatingBar from '../RatingBar/RatingBar';
-import { Link } from 'react-router-dom';
-
-export default function CourseCards({ data }) {
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+export default function FavouriteCards({ data }) {
     const [fill, setFill] = useState(data.favourite); // Initialize fill state with the favourite status of the card
-
+    
     const handleToggleFavorite = async () => {
         try {
             const response = await axios.put(`http://localhost:3000/api/v1/updatefavcards/${data._id}`, {
@@ -18,7 +16,6 @@ export default function CourseCards({ data }) {
             console.error(error);
         }
     };
-
     return (
         <div>
             <div className="bg-white rounded-lg shadow-md relative">
@@ -45,7 +42,6 @@ export default function CourseCards({ data }) {
                 <div className="p-4">
                     <h2 className="text-xl font-semibold text-gray-800">{data.title}</h2>
                     <p className="text-sm text-gray-600 mt-2 mb-4">{data.description}</p>
-                    <RatingBar initialRating={data.rating} cardId={data._id} />
                 </div>
             </div>
         </div>

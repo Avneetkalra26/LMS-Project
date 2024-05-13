@@ -3,9 +3,7 @@ import Navbar from '../Navbar/Navbar'
 import DashboardBanner from '../Banner/DashboardBanner'
 import SmallCards from '../Cards/SmallCards'
 import CourseCards from '../Cards/CourseCards'
-import { cardData } from '../../utils/CardsMockData'
 import CourseCardBanner from '../Banner/CourseCardBanner'
-import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import axios from 'axios'
 export default function Dashboard() {
@@ -18,10 +16,10 @@ export default function Dashboard() {
         axios.get("http://localhost:3000/api/v1/getCards")
             .then((response) => {
                 setFilteredCourses(response.data.data)
-                console.log(response.data.data)
+                setCoursesData(response.data.data)
             })
     }
-    const [coursesData, setCoursesData] = useState(cardData)
+    const [coursesData, setCoursesData] = useState([])
     useEffect(() => {
         getCardData()
     }, [])
@@ -33,7 +31,6 @@ export default function Dashboard() {
         <div>
             <Navbar />
             <DashboardBanner searchDataContainer={handleSearchInput} />
-            {/* <h1>{searchData}</h1> */}
             <SmallCards />
             <CourseCardBanner />
             <div data-aos="fade-up"
@@ -42,10 +39,7 @@ export default function Dashboard() {
                 <div className='grid grid-cols-4 mx-10 gap-5'>
                     {filteredCourses.map((value, index) => (
                         <div key={index} className='mb-5'>
-                            {/* Adjust the width accordingly to accommodate the gap and margin */}
-                            <Link to={"/contentpage?id=" + value._id}>
-                                <CourseCards data={value} />
-                            </Link>
+                            <CourseCards data={value} cardId={value._id} />
                         </div>
                     ))
                     }

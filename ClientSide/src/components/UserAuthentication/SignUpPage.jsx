@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import style from '../../CssModules/UserAccounts.module.css'
 import img from '../../assets/form.jpg'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,9 +6,12 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 
 export default function SignUpPage() {
-    const [formData, setFormData] = useState({})
+    const [showPassword, setShowPassword] = useState("")
+    const [emailExistError, setEmailExistError] = useState("")
+    const [userExistError, setUserExistError] = useState("")
     const navigate = useNavigate();
     const {
+
         register,
         handleSubmit,
         reset,
@@ -16,26 +19,54 @@ export default function SignUpPage() {
     } = useForm();
 
     const onDataSubmit = (data) => {
-        console.log(data.username)
         if (isValid) {
             try {
                 axios.post("http://localhost:3000/api/v1/signupUser", {
                     data
                 }).then((response) => {
-                    console.log(response.data)
+                    const success = response.data.success;
+                    if (success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'User Registered Successfully',
+                            showConfirmButton: true,
+                        }).then((response) => {
+                            if (response.isConfirmed) {
+                                reset(); // Reset form after navigation
+                                navigate("/");
+                            }
+                        })
+                    }
+                }).catch((error) => {
+                    const errorCode = error.response.data.errorCode;
+                    let errorMessage = "";
+                    if (errorCode === "email") {
+                        errorMessage = error.response.data.error;
+                        setEmailExistError(errorMessage)
+                    }
+                    else if (errorCode === "username") {
+                        errorMessage = error.response.data.error;
+                        setUserExistError(errorMessage)
+                    }
+                    else {
+                        errorMessage = "An error occurred while signing in.";
+                        console.log(errorMessage)
+                    }
                 })
-                navigate('/registration'); // Navigate after setting user data
-                reset(); // Reset form after navigation
+
             }
             catch (error) {
                 console.log("Error in Submission", error);
             }
         }
     };
-    // useEffect(() => {
-    //     console.log(formData);
-    // },[formData]);
-
+    const handleUsernameValidation = (formData) => {
+        const regex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+        return (
+            regex.test(formData) ||
+            "Username must start with a letter and contain at least 8 characters, consisting of letters, digits, or underscores."
+        );
+    }
     const handlePasswordValidation = (formData) => {
         const regex = /^(?=.*[!@#$%^&*])(?=.*\d)(?=.*[A-Z]).{8,}$/;
         return (
@@ -43,7 +74,7 @@ export default function SignUpPage() {
             "Password must contain a special character, a number, 8 characters,and an uppercase letter"
         );
     };
-    const handleEmailPassword = (formData) => {
+    const handleEmailValidation = (formData) => {
         const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         return (
             regex.test(formData) ||
@@ -61,32 +92,31 @@ export default function SignUpPage() {
                                 <div className={`card-title font-bold text-xl mt-2 mb-7 ml-2 ${style.pageTitle}`}>
                                     Sign Up
                                 </div>
-                                <div className="mb-6">
-                                    <label htmlFor="name" className="block mb-2 text-sm font-semibold text-gray-700 ml-3">Name</label>
+                                <div className="mb-4">
+                                    <label htmlFor="username" className="block mb-2 text-sm font-semibold text-gray-700 ml-3">Name</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                             <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" className='w-5 h-5' alt="" />
                                         </div>
                                         <input
                                             type="text"
+                                            id="username"
                                             className="bg-gray-100 border border-gray-200 text-gray-950 text-sm rounded-full w-full ps-10 p-2.5  outline-gray-300"
                                             placeholder="Enter Name"
                                             {...register("username", {
-                                                required: "Username is required",
-                                                maxLength: {
-                                                    value: 8,
-                                                    message: "Username should not exceed 8 characters",
-                                                },
+                                                required: "* Username is required",
+                                                validate: handleUsernameValidation,
                                             })}
                                         />
-                                        {errors.username && (
-                                            <div className="absolute text-red-500 text-xs italic  mt-1 ml-3 mb-10">
-                                                {errors.username.message}
+                                        <div className='mb-10'>
+                                            <div className="absolute text-red-500 text-xs italic  mt-1 ml-3">
+                                                {userExistError || errors.username && (errors.username.message)}
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="mb-6">
+                                
+                                <div className="mb-4">
                                     <label htmlFor="emailAddress" className="block mb-2 text-sm font-semibold text-gray-700 ml-3">Email</label>
                                     <div className="relative ">
                                         <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -94,43 +124,53 @@ export default function SignUpPage() {
                                         </div>
                                         <input
                                             type="text"
+                                            id="emailAddress"
                                             className="bg-gray-100 border border-gray-200 text-gray-950 text-sm rounded-full w-full ps-10 p-2.5  outline-gray-300"
                                             placeholder="Enter Email Address"
                                             {...register("email", {
-                                                validate: handleEmailPassword,
+                                                required: "* Email is required",
+                                                validate: handleEmailValidation
                                             })} />
-                                        {errors.email && (
-                                            <div className="absolute text-red-500 text-xs italic ml-3 mt-1">
-                                                {errors.email.message}
+                                        <div className='mb-10'>
+                                            <div className="absolute text-red-500 text-xs italic  mt-1 ml-3">
+                                                {emailExistError || errors.email && (errors.email.message)}
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="mb-6">
+                                <div className="mb-4">
                                     <label htmlFor="userPassword" className="block mb-2 text-sm font-semibold text-gray-700 ml-3">Password</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                             <img src="https://cdn-icons-png.flaticon.com/128/4503/4503969.png" className="w-5 h-5" alt="" />
                                         </div>
                                         <input
-                                            type="password"
+                                            type={showPassword ? "text" : "password"}
+                                            id="userPassword"
                                             className="bg-gray-100 border border-gray-200 text-gray-950 text-sm rounded-full w-full ps-10 p-2.5  outline-gray-300"
                                             placeholder="Enter Password"
                                             {...register("password", {
-                                                required: "Password is required",
+                                                required: "* Password is required",
                                                 validate: handlePasswordValidation,
                                             })}
                                         />
+                                        {/* show password */}
+                                        <div className="absolute inset-y-0 end-6 flex items-center ps-3.5 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                                            <img src={showPassword ? "https://cdn-icons-png.flaticon.com/128/4121/4121492.png" : "https://cdn-icons-png.flaticon.com/128/875/875643.png"}
+                                                className="w-5 h-5" alt="" />
+                                        </div>
                                         {errors.password && (
-                                            <div className="absolute text-red-500 text-xs mt-1 ml-3 italic ">
-                                                {errors.password.message}
+                                            <div className='mb-14'>
+                                                <div className="absolute text-red-500 text-xs mt-1 ml-3 italic ">
+                                                    {errors.password.message}
+                                                </div>
                                             </div>
                                         )}
 
                                     </div>
                                 </div>
 
-                                <div className='mt-12'>
+                                <div className='mt-10'>
                                     <button type="submit"
                                         className={`text-white text-center text-md font-bold mb-3 rounded-full block w-full p-2 ${style.btnBgColor}`}>Sign Up</button>
                                 </div>
@@ -145,6 +185,6 @@ export default function SignUpPage() {
                     </div>
                 </div>
             </div>
-            </div>
-            );
+        </div>
+    );
 }
