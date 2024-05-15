@@ -26,15 +26,15 @@ export default function CourseAssignment() {
                         'alignright alignjustify | bullist numlist outdent indent | ' +
                         'removeformat | help',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                    branding:false
+                    branding: false
                 }}
             />
-            <div className='m-3 flex justify-end'>
-                <button onClick={log} className='btn btn-primary mr-6 px-6'
-                style={{backgroundColor:"#611f69",border:"none"}}>
+            <div className='m-3 flex justify-end py-2'>
+                <button onClick={log} className='px-7 py-2 text-white rounded-lg'
+                    style={{ backgroundColor: "#611f69"}} >
                     Submit
                 </button>
-            </div>
+            </div >
         </>
     );
 }
