@@ -1,21 +1,32 @@
 import axios from 'axios';
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-export default function FavouriteCards({ data }) {
-    const [fill, setFill] = useState(data.favourite); // Initialize fill state with the favourite status of the card
-    
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+export default function FavouriteCards({ data, onRemoveFromFavorites }) {
+    const [fill, setFill] = useState(data.favourite);
+
     const handleToggleFavorite = async () => {
         try {
             const response = await axios.put(`http://localhost:3000/api/v1/updatefavcards/${data._id}`, {
-                favourite: !fill // Toggle the favourite status
+                favourite: !fill
             });
+
             if (response.data.success) {
-                setFill(!fill); // Update the fill state on success
+                setFill(!fill);
+                // If successfully removed from favorites, call the callback function to update the UI in the parent component
+                if (!fill && onRemoveFromFavorites) {
+                    onRemoveFromFavorites(data._id);
+                }
             }
         } catch (error) {
             console.error(error);
         }
     };
+
+    if (!fill) {
+        return null; // Do not render the card if it's not a favorite
+    }
+
     return (
         <div>
             <div className="bg-white rounded-lg shadow-md relative">

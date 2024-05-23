@@ -7,10 +7,6 @@ import CourseCardBanner from '../Banner/CourseCardBanner'
 import { useEffect } from 'react'
 import axios from 'axios'
 export default function Dashboard() {
-    // const [searchData, setSearchData] = useState("")
-    // const handleSearchInput = (searchDataContainer)=>{
-    //           setSearchData(searchDataContainer)
-    // }
     const [filteredCourses, setFilteredCourses] = useState([])
     const getCardData = () => {
         axios.get("http://localhost:3000/api/v1/getCards")
@@ -39,7 +35,7 @@ export default function Dashboard() {
                 <div className='grid grid-cols-4 mx-10 gap-5'>
                     {filteredCourses.map((value, index) => (
                         <div key={index} className='mb-5'>
-                            <CourseCards data={value} cardId={value._id} />
+                            <CourseCards data={value} />
                         </div>
                     ))
                     }

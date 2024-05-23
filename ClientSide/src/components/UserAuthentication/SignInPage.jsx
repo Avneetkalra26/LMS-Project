@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 export default function SignInPage() {
-    // const [formData, setFormData] = useState({})
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -15,13 +14,14 @@ export default function SignInPage() {
         handleSubmit,
         formState: { errors, isValid },
     } = useForm();
-
     const onDataSubmit = (data) => {
         if (isValid) {
             try {
                 axios.post("http://localhost:3000/api/v1/signinUser", { data })
                     .then((response) => {
                         const success = response.data.success;
+                        const userData = response.data.data
+                        localStorage.setItem("userData", JSON.stringify(userData))
                         if (success) {
                             Swal.fire({
                                 icon: 'success',

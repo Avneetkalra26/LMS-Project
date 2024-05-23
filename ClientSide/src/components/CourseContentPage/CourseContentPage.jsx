@@ -29,7 +29,7 @@ export default function CourseContentPage() {
     <div>
       <Navbar />
       <ContentBanner courseTitle={courseData.title} />
-      <CourseContent data={courseData} />
+      <CourseContent data={courseData} courseID={courseID}/>
     </div>
   )
 }

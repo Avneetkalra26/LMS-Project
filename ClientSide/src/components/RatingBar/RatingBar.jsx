@@ -8,7 +8,7 @@ export default function RatingBar({initialRating,cardId}) {
       axios.put(`http://localhost:3000/api/v1/updaterating/${cardId}`,{
         rating
       }).then((response)=>{
-        console.log(response.data.message)
+        // console.log(response.data.message)
       })
     }
     useEffect(()=>{

@@ -3,12 +3,15 @@ import axios from 'axios';
 import RatingBar from '../RatingBar/RatingBar';
 import { Link } from 'react-router-dom';
 
-export default function CourseCards({ data }) {
+export default function CourseCards({ data, activeLink = false }) {
     const [fill, setFill] = useState(data.favourite); // Initialize fill state with the favourite status of the card
+    const courseID = data._id
+    // const userData = JSON.parse(localStorage.getItem("userData")) 
+    // const userID = userData._id
 
     const handleToggleFavorite = async () => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/v1/updatefavcards/${data._id}`, {
+            const response = await axios.put(`http://localhost:3000/api/v1/updatefavcards/${courseID}`, {
                 favourite: !fill // Toggle the favourite status
             });
             if (response.data.success) {
@@ -22,9 +25,12 @@ export default function CourseCards({ data }) {
     return (
         <div>
             <div className="bg-white rounded-lg shadow-md relative">
-                <Link to={"/contentpage?id=" + data._id}>
+                {!activeLink ? (<Link to={"/contentpage?id=" + data._id}>
                     <img className="h-36 w-full object-cover rounded-t-lg" src={data.imageUrl} alt={data.title} />
-                </Link>
+                </Link>) : (<Link to={"/mainpage"}>
+                    <img className="h-36 w-full object-cover rounded-t-lg" src={data.imageUrl} alt={data.title} />
+                </Link>)}
+
                 <div className="rounded-full bg-white absolute top-2 right-3 p-1">
                     <svg
                         onClick={handleToggleFavorite}
@@ -46,6 +52,9 @@ export default function CourseCards({ data }) {
                     <h2 className="text-xl font-semibold text-gray-800">{data.title}</h2>
                     <p className="text-sm text-gray-600 mt-2 mb-4">{data.description}</p>
                     <RatingBar initialRating={data.rating} cardId={data._id} />
+                    <button className="mt-2 bg-transparent hover:bg-black text-blue-black font-semibold text-sm hover:text-white py-1 px-2 border border-gray-400 hover:border-transparent rounded">
+                        Enroll
+                    </button>
                 </div>
             </div>
         </div>
