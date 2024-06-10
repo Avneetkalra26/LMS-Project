@@ -16,12 +16,15 @@ export default function FavoriteCoursesComponent() {
         }
     };
 
-    const handleRemoveFromFavorites = async (cardId) => {
+    const handleRemoveFromFavorites = async (cardId, index) => {
         try {
             await axios.put(`http://localhost:3000/api/v1/updatefavcards/${cardId}`, {
                 favourite: false
             });
-            setFavouriteList(prevList => prevList.filter(card => card._id !== cardId));
+            setFavouriteList(prevList => [
+                ...prevList.slice(0, index),
+                ...prevList.slice(index + 1)
+            ]);
         } catch (error) {
             console.error(error);
         }
@@ -35,13 +38,21 @@ export default function FavoriteCoursesComponent() {
         <div>
             <Navbar />
             <FavouriteCardBanner />
-            <div className='grid grid-cols-4 mx-10 gap-5'>
-                {favouriteList.map((value, index) => (
-                    <div key={index} className='mb-5'>
-                        <FavouriteCards data={value} onRemoveFromFavorites={handleRemoveFromFavorites} />
-                    </div>
-                ))}
-            </div>
+
+            {favouriteList.length == 0 ?
+                <div>
+                    <h1 className='text-xl text-customBlue ml-11 font-semibold'>No favourite courses !!!</h1>
+                </div>
+                : (<div className='grid grid-cols-4 mx-10 gap-5'>
+                    {favouriteList.map((value, index) => (
+                        <FavouriteCards
+                            key={value._id}
+                            data={value}
+                            index={index}
+                            onRemoveFromFavorites={handleRemoveFromFavorites}
+                        />
+                    ))}
+                </div>)}
         </div>
     );
 }

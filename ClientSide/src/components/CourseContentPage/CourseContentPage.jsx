@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ContentBanner from '../Banner/ContentBanner'
-import CourseContent from '../Content/CourseContent'
-import Navbar from '../Navbar/Navbar'
+import ContentBanner from '../Banner/ContentBanner';
+import CourseContent from '../Content/CourseContent';
+import Navbar from '../Navbar/Navbar';
 import axios from 'axios';
+
 export default function CourseContentPage() {
   const params = new URLSearchParams(window.location.search);
   const courseID = params.get("id");
@@ -24,12 +25,16 @@ export default function CourseContentPage() {
     };
 
     fetchCourseData(); // Call fetchCourseData function when component mounts
-  }, [courseID]); // Re-run effect when idTitle changes
+
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, [courseID]); // Re-run effect when courseID changes
+
   return (
     <div>
       <Navbar />
       <ContentBanner courseTitle={courseData.title} />
-      <CourseContent data={courseData} courseID={courseID}/>
+      <CourseContent data={courseData} courseID={courseID} />
     </div>
-  )
+  );
 }

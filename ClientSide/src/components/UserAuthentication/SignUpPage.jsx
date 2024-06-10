@@ -60,13 +60,21 @@ export default function SignUpPage() {
             }
         }
     };
+    // const handleUsernameValidation = (formData) => {
+    //     const regex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+    //     return (
+    //         regex.test(formData) ||
+    //         "Username must start with a letter and contain at least 8 characters, consisting of letters, digits, or underscores."
+    //     );
+    // }
     const handleUsernameValidation = (formData) => {
-        const regex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+        const regex = /^[A-Z][a-zA-Z]{4,7}$/;
         return (
             regex.test(formData) ||
-            "Username must start with a letter and contain at least 8 characters, consisting of letters, digits, or underscores."
+            "Username start with a capital letter, contain only alphabets, and be between 5 to 8 characters long."
         );
     }
+    
     const handlePasswordValidation = (formData) => {
         const regex = /^(?=.*[!@#$%^&*])(?=.*\d)(?=.*[A-Z]).{8,}$/;
         return (

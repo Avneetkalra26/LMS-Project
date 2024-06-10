@@ -16,7 +16,7 @@ export default function RatingBar({initialRating,cardId}) {
     },[rating])
     return(
    <div className='flex'>
-     <Rating style={{ maxWidth: 120}} value={rating} onChange={setRating} />
+     <Rating style={{ maxWidth: 90}} value={rating} onChange={setRating} />
      <span className='text-gray-600 text-sm m-2'>
         {rating == 0 ? 'No Rating' : `${rating} out of 5 stars`}
      </span>

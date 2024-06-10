@@ -9,10 +9,10 @@ const resourcesSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pptLink: {
-      type: String,
-      required: true,
-    },
+    // pptLink: {
+    //   type: String,
+    //   required: true,
+    // },
     videoLink: {
       type: String,
       required: true,

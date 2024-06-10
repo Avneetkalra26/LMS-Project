@@ -9,10 +9,12 @@ const CardSchema = new mongoose.Schema({
     maxLength: 300,
   },
   imageUrl: {
-    type: String
+    type: String,
+    maxLength: 300,
   },
   rating: {
-    type:Number
+    type:Number,
+    maxLength:10,
   },
   favourite:{
     type : Boolean ,

@@ -18,10 +18,11 @@ exports.getCardsData = async (req, res) => {
   }
 };
 //getCardDatabyId
+//this controller is also used tp fetch the courseName by  id in the certificate component
 exports.getCardsDataById = async (req, res) => {
   try {
-    const {id} = req.params;
-    const cardDataById = await CardSchema.findById({ _id:id});
+    const {courseId} = req.params;
+    const cardDataById = await CardSchema.findById({ _id:courseId});
     if (!cardDataById) {
       return res.status(404).json({
         succss: false,
@@ -43,5 +44,3 @@ exports.getCardsDataById = async (req, res) => {
     });
   }
 };
-
-

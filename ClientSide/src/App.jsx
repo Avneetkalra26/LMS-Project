@@ -1,48 +1,109 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ContactPage, ContentPage, FavouriteCoursesPage, LoginPage, MainPage, ProfilePage, RegisterPage } from './pages';
-import QuizQuestions from './components/Quiz/QuizQuestions';
-import ProtectedRoute from './ProtectedRoute';
-import CourseCards from './components/Cards/CourseCards';
 import AllCoursesPage from './pages/AllCoursesPage';
+import AuthLayout from './components/Authentication/AuthLayout';
+import ProtectedContainer from './components/Authentication/ProtectedContainer';
+import { useDispatch } from 'react-redux';
+import { login } from './features/authSlice';
+import MyLearningPage from './pages/MyLearningPage';
+import AboutUs from './components/AboutUsPage/AboutUs';
+
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"))
+    if (userData) {
+      dispatch(login({ user: userData }))
+    }
+  })
   const appRoute = createBrowserRouter([
     {
-      path: "/",
-      element: <LoginPage />,
+      path: "/login",
+      element: (
+        <AuthLayout authentication={false} >
+          <LoginPage />
+        </AuthLayout>
+      )
     },
     {
       path: "/registration",
-      element: <RegisterPage />,
+      element: (
+        <AuthLayout authentication={false} >
+          <RegisterPage />
+        </AuthLayout>
+      )
     },
     {
-      path: "/mainpage",
-      element: <ProtectedRoute element={<MainPage />} /> // Protected route
-    },
-    {
-      path: "/contentpage",
-      element: <ProtectedRoute element={<ContentPage />} />
-    },
-    {
-      path: "/contactus",
-      element: <ProtectedRoute element={<ContactPage />} />
-    },
-    {
-      path: "/profile",
-      element: <ProtectedRoute element={<ProfilePage />} />
-    },
-    {
-      path: "/quizques",
-      element: <ProtectedRoute element={<QuizQuestions />} />
-    },
-    {
-      path: "/favouriteList",
-      element: <ProtectedRoute element={<FavouriteCoursesPage />} />
-      // element: <FavouriteCoursesPage />,
-    },
-    {
-      path: "/allcourses",
-      element: <ProtectedRoute element={<AllCoursesPage/>} />
+      path: "/",
+      element: <ProtectedContainer />,
+      children: [
+        {
+          path: "/",
+          element: (
+            <AuthLayout authentication={true} >
+              <MainPage />
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/contentpage",
+          element: (
+            <AuthLayout authentication={true} >
+              <ContentPage />
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/contactus",
+          element: (
+            <AuthLayout authentication={true} >
+              <ContactPage />
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/profile",
+          element: (
+            <AuthLayout authentication={true} >
+              <ProfilePage />
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/favouriteList",
+          element: (
+            <AuthLayout authentication={true} >
+              <FavouriteCoursesPage />
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/allcourses",
+          element: (
+            <AuthLayout authentication={true} >
+              <AllCoursesPage />
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/mylearning",
+          element: (
+            <AuthLayout authentication={true} >
+              <MyLearningPage/>
+            </AuthLayout>
+          )
+        },
+        {
+          path: "/aboutUs",
+          element: (
+            <AuthLayout authentication={true} >
+              <AboutUs/>
+            </AuthLayout>
+          )
+        },
+
+      ]
     },
   ]);
   return (

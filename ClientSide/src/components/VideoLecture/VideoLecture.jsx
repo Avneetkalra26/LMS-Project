@@ -1,15 +1,17 @@
-import React from 'react'
+import React from 'react';
 
-export default function VideoLecture() {
+export default function VideoLecture({ videoLink }) {
+    // console.log(`videoLink = ${videoLink}`)
     return (
-        <iframe width="100%"
-            height="430"
-            src="https://www.youtube.com/embed/BsDoLVMnmZs"
-            title="HTML Tutorial For Beginners In Hindi (With Notes) 🔥"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
-        </iframe>
-    )
+        <div className="flex justify-center bg-gray-100 " style={{height:"28rem"}}>
+            <iframe
+                src={videoLink}
+                frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="w-2/3 mx-10 my-6 h-96 rounded-lg shadow-lg"
+            ></iframe>
+        </div>
+    );
 }
+
